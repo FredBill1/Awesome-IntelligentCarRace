@@ -1,6 +1,6 @@
 # Project information
 site_name: Awesome-IntelligentCarRace
-site_description: 智能车竞赛 开源项目收集 | Awesome Intelligent Car Race
+site_description: 智能车竞赛 开源项目合集 | Awesome Intelligent Car Race
 site_url: https://ittuann.github.io/Awesome-IntelligentCarRace/
 
 # Repository
@@ -11,19 +11,27 @@ edit_uri: blob/main/docs
 # Configuration
 theme:
   name: material
+  custom_dir: overrides
   font:
     text: Roboto
     code: Roboto Mono
   features:
     - navigation.top
     - navigation.footer
+    - navigation.expand
     - navigation.tracking
-    - content.code.copy
+    - navigation.indexes
+    - navigation.instant
     - content.action.edit
-    - instant
-    - header.autohide
+    - content.code.copy
+    - content.code.annotate
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
     - search.suggest
+    - search.highlight
     - search.share
+    - toc.follow
   logo: assets/favicon/favicon.png
   favicon: assets/favicon/favicon.png
   icon:
@@ -47,19 +55,25 @@ theme:
         name: Switch to light mode
 
 site_author: ittuann
-copyright: MIT License
+copyright: MIT & CC-BY-4.0 License
 
 # Extensions
 markdown_extensions:
   - admonition
   - footnotes
   - attr_list
+  - def_list
+  - md_in_html
+  - toc:
+      permalink: true
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.tilde
   - pymdownx.critic
   - pymdownx.details
   - pymdownx.betterem
+  - pymdownx.mark
+  - pymdownx.smartsymbols
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.highlight:
@@ -70,11 +84,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
-  - markdown.extensions.def_list
   - meta
   - tables
-  - toc:
-      permalink: true
 
 extra_javascript:
   - https://unpkg.com/tablesort@latest/dist/tablesort.min.js
@@ -84,12 +95,20 @@ plugins:
   - search:
       lang: ja
   - table-reader
+  - rss
 
 # Extra
 extra:
   social:
+    - icon: octicons/globe-16
+      link: https://ittuann.github.io/Awesome-IntelligentCarRace/
     - icon: fontawesome/brands/github
       link: https://github.com/ittuann
+    - icon: fontawesome/solid/envelope
+      link: mailto:<ittuann@outlook.com>
+  analytics:
+    provider: google
+    property: G-8SY1RE8KQW
 
 # Navigation
 nav:

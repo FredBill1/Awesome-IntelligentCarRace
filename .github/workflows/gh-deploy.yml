@@ -3,7 +3,7 @@ name: Deploy to Github Pages
 on:
   workflow_run:
     workflows:
-      - Prettify
+      - Builds
     types:
       - completed
 
@@ -22,13 +22,13 @@ jobs:
 
     steps:
       - name: Checking Out
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -45,4 +45,5 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
 
-      - run: mkdocs gh-deploy --force
+      - name: gh-deploy
+        run: mkdocs gh-deploy

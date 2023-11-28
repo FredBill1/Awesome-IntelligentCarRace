@@ -1,0 +1,68 @@
+name: Builds
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  prettify:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Checking Out
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: false
+
+      - name: Inclusiveness Analyze
+        uses: microsoft/InclusivenessAnalyzer@v1.0.1
+        continue-on-error: true
+
+      - name: Prettify markdown
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: --write **/*.{yml,md}
+          commit_message: "Automatically Prettified Markdown"
+          dry: True
+        continue-on-error: true
+
+  build:
+    runs-on: ubuntu-latest
+
+    needs: prettify
+
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+
+    steps:
+      - name: Checking Out
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Generate sub-tables
+        run: python ./scripts/split.py
+
+      - name: Build
+        run: mkdocs build
